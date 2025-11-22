@@ -6,6 +6,8 @@ defined('ABSPATH') || exit;
  * Init Direct Classes Here
  */
 
+require_once FLUENT_AUTH_PLUGIN_PATH . 'modules/custom-paths/Module.php';
+
 (new \FluentAuth\App\Hooks\Handlers\AdminMenuHandler())->register();
 (new \FluentAuth\App\Hooks\Handlers\CustomAuthHandler())->register();
 (new \FluentAuth\App\Hooks\Handlers\LoginSecurityHandler())->register();
@@ -16,4 +18,5 @@ defined('ABSPATH') || exit;
 (new \FluentAuth\App\Hooks\Handlers\WPSystemEmailHandler())->register();
 (new \FluentAuth\App\Hooks\Handlers\LoginCustomizerHandler())->register();
 (new \FluentAuth\App\Hooks\Handlers\ServerModeHandler())->register();
+(new \FluentSecurity\Modules\CustomPaths\Module())->register();
 
