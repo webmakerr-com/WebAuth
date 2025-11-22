@@ -80,15 +80,21 @@ if ( defined( 'ABSPATH' ) && ! defined( 'HMW_VERSION' ) ) {
 					'checkRewriteUpdate'
 				), 11, 1 );
 
-				// Hook activation and deactivation
-				register_activation_hook( __FILE__, array(
-					HMWP_Classes_ObjController::getClass( 'HMWP_Classes_Tools' ),
-					'hmwp_activate'
-				) );
-				register_deactivation_hook( __FILE__, array(
-					HMWP_Classes_ObjController::getClass( 'HMWP_Classes_Tools' ),
-					'hmwp_deactivate'
-				) );
+                                // Hook activation and deactivation
+                                register_activation_hook( __FILE__, array(
+                                        HMWP_Classes_ObjController::getClass( 'HMWP_Classes_Tools' ),
+                                        'hmwp_activate'
+                                ) );
+                                register_deactivation_hook( __FILE__, array(
+                                        HMWP_Classes_ObjController::getClass( 'HMWP_Classes_Tools' ),
+                                        'hmwp_deactivate'
+                                ) );
+
+                                // Safe paths manager
+                                $hmwp_safe_paths = HMWP_Classes_ObjController::getClass( 'HMWP_Classes_SafePaths' );
+
+                                register_activation_hook( __FILE__, array( $hmwp_safe_paths, 'activate' ) );
+                                register_deactivation_hook( __FILE__, array( $hmwp_safe_paths, 'deactivate' ) );
 
 				// Verify if there are updated and all plugins and themes are in the right list
 				add_action( 'activated_plugin', array(
