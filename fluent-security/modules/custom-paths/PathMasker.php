@@ -111,8 +111,10 @@ class PathMasker
             return;
         }
 
-        $siteUrl  = untrailingslashit(site_url());
-        $homeUrl  = untrailingslashit(home_url());
+        // Avoid triggering the same filters we attach to by reading the raw option
+        // values instead of calling site_url()/home_url(), which would recurse.
+        $siteUrl  = untrailingslashit(get_option('siteurl'));
+        $homeUrl  = untrailingslashit(get_option('home'));
         $from     = [];
         $to       = [];
 
