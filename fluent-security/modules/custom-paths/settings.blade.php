@@ -26,7 +26,7 @@ defined('ABSPATH') || exit;
                     <label for="fls-content-mask"><?php esc_html_e('Custom wp-content path', 'fluent-security'); ?></label>
                 </th>
                 <td>
-                    <input id="fls-content-mask" name="fls_custom_paths[content]" type="text" class="regular-text" value="<?php echo esc_attr($settings['content']); ?>" />
+                    <input id="fls-content-mask" name="fls_custom_paths[content_mask]" type="text" class="regular-text" value="<?php echo esc_attr($settings['content_mask']); ?>" />
                     <p class="description"><?php esc_html_e('Choose a virtual folder name to replace /wp-content/.', 'fluent-security'); ?></p>
                 </td>
             </tr>
@@ -35,7 +35,7 @@ defined('ABSPATH') || exit;
                     <label for="fls-includes-mask"><?php esc_html_e('Custom wp-includes path', 'fluent-security'); ?></label>
                 </th>
                 <td>
-                    <input id="fls-includes-mask" name="fls_custom_paths[includes]" type="text" class="regular-text" value="<?php echo esc_attr($settings['includes']); ?>" />
+                    <input id="fls-includes-mask" name="fls_custom_paths[includes_mask]" type="text" class="regular-text" value="<?php echo esc_attr($settings['includes_mask']); ?>" />
                     <p class="description"><?php esc_html_e('Choose a virtual folder name to replace /wp-includes/.', 'fluent-security'); ?></p>
                 </td>
             </tr>
@@ -44,7 +44,7 @@ defined('ABSPATH') || exit;
                     <label for="fls-uploads-mask"><?php esc_html_e('Custom uploads path', 'fluent-security'); ?></label>
                 </th>
                 <td>
-                    <input id="fls-uploads-mask" name="fls_custom_paths[uploads]" type="text" class="regular-text" value="<?php echo esc_attr($settings['uploads']); ?>" />
+                    <input id="fls-uploads-mask" name="fls_custom_paths[uploads_mask]" type="text" class="regular-text" value="<?php echo esc_attr($settings['uploads_mask']); ?>" />
                     <p class="description"><?php esc_html_e('Choose a virtual folder name to replace /wp-content/uploads/.', 'fluent-security'); ?></p>
                 </td>
             </tr>
@@ -53,7 +53,7 @@ defined('ABSPATH') || exit;
                     <label for="fls-comments-mask"><?php esc_html_e('Custom comment processor path', 'fluent-security'); ?></label>
                 </th>
                 <td>
-                    <input id="fls-comments-mask" name="fls_custom_paths[comments]" type="text" class="regular-text" value="<?php echo esc_attr($settings['comments']); ?>" />
+                    <input id="fls-comments-mask" name="fls_custom_paths[comments_mask]" type="text" class="regular-text" value="<?php echo esc_attr($settings['comments_mask']); ?>" />
                     <p class="description"><?php esc_html_e('Choose a virtual endpoint to mask wp-comments-post.php.', 'fluent-security'); ?></p>
                 </td>
             </tr>

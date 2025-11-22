@@ -4,52 +4,27 @@ namespace FluentSecurity\Modules\CustomPaths;
 
 defined('ABSPATH') || exit;
 
+require_once __DIR__ . '/PathMasker.php';
+
 class Module
 {
     protected $optionKey = 'fls_custom_paths';
 
     protected $defaults = [
-        'content'  => 'wp-content',
-        'includes' => 'wp-includes',
-        'uploads'  => 'uploads',
-        'comments' => 'wp-comments-post'
+        'content_mask'  => 'wp-content',
+        'includes_mask' => 'wp-includes',
+        'uploads_mask'  => 'uploads',
+        'comments_mask' => 'wp-comments-post.php',
     ];
 
     public function register()
     {
-        add_action('init', [$this, 'addRewriteRules'], 20);
-        add_action('template_redirect', [$this, 'startBuffering'], 0);
+        $settings = $this->getSettings();
+        (new PathMasker($settings))->register();
+
         add_action('admin_menu', [$this, 'addSettingsPage'], 25);
         add_action('admin_post_fls_custom_paths', [$this, 'handleSettingsPost']);
         add_action('fluent_security_save_settings', [$this, 'saveSettings']);
-    }
-
-    public function addRewriteRules()
-    {
-        $paths = $this->getSettings();
-
-        add_rewrite_rule('^' . preg_quote($paths['content'], '/') . '/(.*)$', 'wp-content/$1', 'top');
-        add_rewrite_rule('^' . preg_quote($paths['includes'], '/') . '/(.*)$', 'wp-includes/$1', 'top');
-        add_rewrite_rule('^' . preg_quote($paths['uploads'], '/') . '/(.*)$', 'wp-content/uploads/$1', 'top');
-        add_rewrite_rule('^' . preg_quote($paths['comments'], '/') . '/?$', 'wp-comments-post.php', 'top');
-    }
-
-    public function startBuffering()
-    {
-        if (is_admin() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('REST_REQUEST') && REST_REQUEST)) {
-            return;
-        }
-
-        $paths = $this->getSettings();
-        $replacements = $this->getReplacements($paths);
-
-        if (!$replacements) {
-            return;
-        }
-
-        ob_start(function ($buffer) use ($replacements) {
-            return strtr($buffer, $replacements);
-        });
     }
 
     public function addSettingsPage()
@@ -131,23 +106,6 @@ class Module
         return $paths;
     }
 
-    protected function getReplacements(array $paths)
-    {
-        $siteUrl = untrailingslashit(home_url());
-        $commentsPath = '/' . ltrim($paths['comments'], '/');
-
-        return [
-            '/wp-content/uploads/'        => '/' . trim($paths['uploads'], '/') . '/',
-            $siteUrl . '/wp-content/uploads/' => $siteUrl . '/' . trim($paths['uploads'], '/') . '/',
-            '/wp-content/'                => '/' . trim($paths['content'], '/') . '/',
-            $siteUrl . '/wp-content/'         => $siteUrl . '/' . trim($paths['content'], '/') . '/',
-            '/wp-includes/'               => '/' . trim($paths['includes'], '/') . '/',
-            $siteUrl . '/wp-includes/'        => $siteUrl . '/' . trim($paths['includes'], '/') . '/',
-            '/wp-comments-post.php'       => $commentsPath,
-            $siteUrl . '/wp-comments-post.php' => $siteUrl . $commentsPath
-        ];
-    }
-
     protected function getPermission()
     {
         if (class_exists('FluentAuth\\App\\Helpers\\Helper')) {
@@ -160,3 +118,4 @@ class Module
         return 'manage_options';
     }
 }
+
